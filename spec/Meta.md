@@ -12,6 +12,7 @@
 | LLM Providers | [Infra/Models.md](Infra/Models.md) | Available models and how to switch |
 | Tool Services | [Infra/Tools.md](Infra/Tools.md) | MCP tool servers and how to add new ones |
 | Benchmark Datasets | [Infra/Benchmarks.md](Infra/Benchmarks.md) | Available benchmarks and how to run them |
+| Dashboard | [Infra/Dashboard.md](Infra/Dashboard.md) | Vite + React web app for data/trace/experiment viewing |
 | Experiments | [Experiments/](Experiments/Meta.md) | Experiment designs, configs, and results |
 | Decisions | [Decisions/](Decisions/Meta.md) | Architecture Decision Records |
 | Progress | [Progress/](Progress/Meta.md) | Session logs with experiment context |

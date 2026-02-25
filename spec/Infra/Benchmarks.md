@@ -19,6 +19,7 @@
 | WebWalkerQA | `webwalkerqa.yaml` | Web walking QA | — | — |
 | FinSearchComp | `finsearchcomp.yaml` | Financial search | — | — |
 | Example Dataset | `example_dataset.yaml` | Quick-start example | — | — |
+| **LiveDRBench** | `livedrbench.yaml` (pending) | Microsoft deep research claim discovery (100 tasks, encrypted answers) | — | — |
 
 ## How to Run a Benchmark
 
