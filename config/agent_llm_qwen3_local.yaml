@@ -1,0 +1,50 @@
+defaults:
+  - benchmark: example_dataset
+  - override hydra/job_logging: none
+  - _self_  # Allow defining variables at the top of this file
+
+
+main_agent:
+  prompt_class: MainAgentPromptBoxedAnswer
+  llm:
+    provider_class: "Qwen3LocalClient"
+    model_name: "Qwen/Qwen3-32B"
+    async_client: true
+    temperature: 0.6
+    top_p: 0.95
+    min_p: 0.0
+    top_k: -1
+    max_tokens: 8000  # conservative given 15536 context window
+    max_context_length: 15536
+    local_api_key: "${oc.env:LOCAL_LLM_API_KEY,not-needed}"
+    local_base_url: "${oc.env:LOCAL_LLM_BASE_URL,https://localllm.frederickpi.com/v1}"
+    keep_tool_result: 3  # keep fewer tool results to save context
+    oai_tool_thinking: false
+    repetition_penalty: 1.0
+    disable_cache_control: true
+
+  tool_config:
+    - tool-searching
+
+  max_turns: 15  # limit turns to stay within context budget
+  max_tool_calls_per_turn: 3  # conservative for smaller model
+
+  input_process:
+    hint_generation: false
+    hint_llm_base_url: "${oc.env:HINT_LLM_BASE_URL,https://api.openai.com/v1}"
+  output_process:
+    final_answer_extraction: false
+    final_answer_llm_base_url: "${oc.env:FINAL_ANSWER_LLM_BASE_URL,https://api.openai.com/v1}"
+
+  openai_api_key: "${oc.env:OPENAI_API_KEY,???}" # used for hint generation and final answer extraction
+  add_message_id: true
+  keep_tool_result: 3
+  chinese_context: "${oc.env:CHINESE_CONTEXT,false}"
+
+
+sub_agents: null
+
+
+# Can define some top-level or default parameters here
+output_dir: logs/
+data_dir: "${oc.env:DATA_DIR,data}"  # Points to where data is stored
