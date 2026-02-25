@@ -10,7 +10,7 @@ main_agent:
   prompt_class: MainAgentPromptBoxedAnswer
   llm:
     provider_class: "GPTOpenAIClient"
-    model_name: "gemini-2.5-flash-preview-05-20"
+    model_name: "gemini-2.5-flash"
     async_client: true
     temperature: 0.3
     top_p: 0.95

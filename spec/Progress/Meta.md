@@ -4,7 +4,7 @@
 
 ## Latest
 
-No sessions logged yet. When work begins, create `LATEST.md` here.
+→ [2026-02-25 — Infrastructure Bootstrap](LATEST.md)
 
 ## Session Log Template
 

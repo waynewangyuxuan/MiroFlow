@@ -13,8 +13,8 @@
 | GPT-5 | `agent_llm_gpt5.yaml` | `GPT5OpenAIClient` | `gpt-5` | OpenAI |
 | MiroThinker | `agent_llm_mirothinker.yaml` | `MiroThinkerSGLangClient` | (self-hosted) | SGLang |
 | Gemini 2.5 Flash | `agent_llm_gemini.yaml` | `ClaudeOpenRouterClient` | `google/gemini-2.5-flash-preview` | OpenRouter |
-| Gemini 2.5 Flash | `agent_llm_gemini_direct.yaml` | `GPTOpenAIClient` | `gemini-2.5-flash-preview-05-20` | Google AI direct |
-| Qwen3-32B | `agent_llm_qwen3_local.yaml` | `Qwen3LocalClient` | `Qwen/Qwen3-32B` | Local (SGLang) |
+| Gemini 2.5 Flash | `agent_llm_gemini_direct.yaml` | `GPTOpenAIClient` | `gemini-2.5-flash` | Google AI direct |
+| GPT-OSS-120B | `agent_llm_qwen3_local.yaml` | `Qwen3LocalClient` | `openai/gpt-oss-120b` | Local (frederickpi.com) |
 
 ## How to Switch Models
 
