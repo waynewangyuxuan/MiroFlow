@@ -36,20 +36,24 @@ def gen_livedrbench(output_dir: str):
     print(f"Saved raw data to {raw_path}")
 
     # Convert to MiroFlow standardized_data.jsonl format
-    # LiveDRBench is claim-discovery, not single-answer QA,
-    # so we store the full task structure and handle evaluation separately.
+    # Field names must match what common_benchmark.entrypoint() expects:
+    #   task_id, task_question, ground_truth, metadata
+    # LiveDRBench answers are encrypted — evaluation is done externally.
     standardized_path = output_path / "standardized_data.jsonl"
     with open(standardized_path, "w", encoding="utf-8") as f:
         for i, row in enumerate(raw_data):
             entry = {
-                "task_id": row.get("task_id", f"livedrbench_{i}"),
-                "Question": row.get("prompt", row.get("question", "")),
-                "Answer": "__ENCRYPTED__",  # answers are encrypted in LiveDRBench
+                "task_id": f"livedrbench_{i}",
+                "task_question": row.get("question", ""),
+                "ground_truth": "__ENCRYPTED__",  # answers are encrypted
                 "metadata": {
                     "category": row.get("category", "unknown"),
                     "source": "microsoft/LiveDRBench",
-                    "raw_fields": {k: v for k, v in row.items()
-                                   if k not in ("prompt", "question")},
+                    # Preserve fields needed for LiveDRBench evaluation
+                    "key": row.get("key"),
+                    "ground_truths_encrypted": row.get("ground_truths", ""),
+                    "misc_encrypted": row.get("misc", ""),
+                    "canary": row.get("canary", ""),
                 },
             }
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")

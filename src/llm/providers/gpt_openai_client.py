@@ -246,6 +246,10 @@ class GPTOpenAIClient(LLMProviderClientBase):
             return parse_llm_response_for_tool_calls(
                 llm_response.choices[0].message.tool_calls
             )
+        # Fallback: check for XML <use_mcp_tool> tags in text response
+        # (needed for OpenAI-compatible APIs like Gemini that don't use native tool calling)
+        elif assistant_response_text and "<use_mcp_tool>" in assistant_response_text:
+            return parse_llm_response_for_tool_calls(assistant_response_text)
         else:
             return [], []
 
@@ -254,12 +258,43 @@ class GPTOpenAIClient(LLMProviderClientBase):
     ):
         """Update message history with tool calls data (llm client specific)"""
 
-        for cur_call_id, tool_result in tool_call_info:
+        # Check if the last assistant message used native tool_calls or XML
+        last_assistant = None
+        for msg in reversed(message_history):
+            if isinstance(msg, dict) and msg.get("role") == "assistant":
+                last_assistant = msg
+                break
+
+        uses_native_tool_calls = (
+            last_assistant is not None and "tool_calls" in last_assistant
+        )
+
+        if uses_native_tool_calls:
+            # Native OpenAI function calling — use role: "tool"
+            for cur_call_id, tool_result in tool_call_info:
+                message_history.append(
+                    {
+                        "role": "tool",
+                        "tool_call_id": cur_call_id,
+                        "content": tool_result["text"],
+                    }
+                )
+        else:
+            # XML-based tool calls (Gemini, etc.) — use role: "user"
+            # Same pattern as ClaudeOpenRouterClient
+            tool_call_info = [item for item in tool_call_info if item[1]["type"] == "text"]
+            output_parts = []
+            if len(tool_call_info) > 1:
+                for i, (_, content) in enumerate(tool_call_info, 1):
+                    output_parts.append(f"Tool call {i} result:\n{content['text']}")
+            else:
+                for _, content in tool_call_info:
+                    output_parts.append(content["text"])
+            merged_text = "\n\n".join(output_parts)
             message_history.append(
                 {
-                    "role": "tool",
-                    "tool_call_id": cur_call_id,
-                    "content": tool_result["text"],
+                    "role": "user",
+                    "content": [{"type": "text", "text": merged_text}],
                 }
             )
 
