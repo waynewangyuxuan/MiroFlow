@@ -1,0 +1,7 @@
+name: "tool-lab-psycholing"
+tool_command: "python"
+args:
+  - "-m"
+  - "src.tool.mcp_servers.lab_psycholing_mcp_server"
+env:
+  LAB_PSYCHOLING_BASE_URL: "${oc.env:LAB_PSYCHOLING_BASE_URL,https://psycholing.frederickpi.com}"

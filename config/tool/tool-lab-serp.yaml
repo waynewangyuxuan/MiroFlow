@@ -1,0 +1,7 @@
+name: "tool-lab-serp"
+tool_command: "python"
+args:
+  - "-m"
+  - "src.tool.mcp_servers.lab_serp_mcp_server"
+env:
+  LAB_SERP_BASE_URL: "${oc.env:LAB_SERP_BASE_URL,https://serp.frederickpi.com}"

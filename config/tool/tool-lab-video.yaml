@@ -1,0 +1,7 @@
+name: "tool-lab-video"
+tool_command: "python"
+args:
+  - "-m"
+  - "src.tool.mcp_servers.lab_video_mcp_server"
+env:
+  LAB_VIDEO_BASE_URL: "${oc.env:LAB_VIDEO_BASE_URL,https://video.frederickpi.com}"

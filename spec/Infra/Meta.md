@@ -9,6 +9,7 @@
 | [Models.md](Models.md) | LLM providers: available models, provider classes, how to add |
 | [Tools.md](Tools.md) | MCP tool servers: search, browse, code, reasoning, etc. |
 | [Benchmarks.md](Benchmarks.md) | Benchmark datasets: GAIA, HLE, BrowserComp, etc. |
+| [LabServices.md](LabServices.md) | Moonbow Stack: external microservices on `*.frederickpi.com` |
 
 ## Principle
 

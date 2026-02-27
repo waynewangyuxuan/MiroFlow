@@ -1,0 +1,8 @@
+name: "tool-lab-audio"
+tool_command: "python"
+args:
+  - "-m"
+  - "src.tool.mcp_servers.lab_audio_mcp_server"
+env:
+  LAB_AUDIO_BASE_URL: "${oc.env:LAB_AUDIO_BASE_URL,https://audio.frederickpi.com}"
+  LAB_AUDIO_MODEL: "${oc.env:LAB_AUDIO_MODEL,Systran/faster-whisper-base}"
