@@ -4,8 +4,13 @@ args:
   - "-m"
   - "src.tool.mcp_servers.python_server"
 env:
-# Code execution environment configuration - these values will be loaded from the .env file at runtime
-  E2B_API_KEY: "${oc.env:E2B_API_KEY}"
+  # Backend selection: "docker" (local, default) or "e2b" (cloud)
+  SANDBOX_BACKEND: "${oc.env:SANDBOX_BACKEND,docker}"
   LOGS_DIR: "./logs"
-  DEFAULT_TEMPLATE_ID: "all_pip_apt_pkg"
   DEFAULT_TIMEOUT: "1800"
+  # Docker backend config (used when SANDBOX_BACKEND=docker)
+  SANDBOX_IMAGE: "${oc.env:SANDBOX_IMAGE,miroflow-sandbox}"
+  SANDBOX_NETWORK: "${oc.env:SANDBOX_NETWORK,true}"
+  # E2B backend config (used when SANDBOX_BACKEND=e2b)
+  E2B_API_KEY: "${oc.env:E2B_API_KEY,}"
+  DEFAULT_TEMPLATE_ID: "${oc.env:DEFAULT_TEMPLATE_ID,all_pip_apt_pkg}"

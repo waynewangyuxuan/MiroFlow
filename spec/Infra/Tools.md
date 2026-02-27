@@ -10,7 +10,7 @@
 | Searching (Serper npx) | `tool-searching-serper.yaml` | `serper-search-scrape-mcp-server` (npx) | Serper's official MCP server |
 | Reading | `tool-reading.yaml` | `src.tool.mcp_servers.reading_mcp_server` | Web page reading |
 | Browsing | `tool-browsing.yaml` | `src.tool.mcp_servers.browsing_mcp_server` | AI-powered web browsing (Claude/GPT) |
-| Code Execution | `tool-code.yaml` | `src.tool.mcp_servers.python_server` | Python code execution via E2B |
+| Code Execution | `tool-code.yaml` | `src.tool.mcp_servers.python_server` | Python code execution (Docker local / E2B cloud) |
 | Reasoning | `tool-reasoning.yaml` | `src.tool.mcp_servers.reasoning_mcp_server` | Extended thinking (Claude/OpenAI) |
 | Reasoning OS | `tool-reasoning-os.yaml` | — | OS-variant of reasoning |
 | Audio | `tool-audio.yaml` | — | Audio processing |
@@ -56,7 +56,9 @@ main_agent:
 |----------|---------|
 | `SERPER_API_KEY` | tool-searching, tool-searching-serper |
 | `JINA_API_KEY` | tool-searching, tool-reading |
-| `E2B_API_KEY` | tool-code |
+| `SANDBOX_BACKEND` | tool-code (default: `docker`; set `e2b` for cloud) |
+| `SANDBOX_IMAGE` | tool-code (default: `miroflow-sandbox`) |
+| `E2B_API_KEY` | tool-code (only when `SANDBOX_BACKEND=e2b`) |
 | `ANTHROPIC_API_KEY` | tool-browsing, tool-reasoning |
 | `OPENAI_API_KEY` | tool-browsing, tool-reasoning |
 | `LAB_SERP_BASE_URL` | tool-lab-serp (default: `https://serp.frederickpi.com`) |

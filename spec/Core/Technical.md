@@ -33,6 +33,7 @@ MiroFlow/
 ├── src/
 │   ├── llm/providers/       ← LLM provider implementations
 │   └── tool/mcp_servers/    ← MCP tool server implementations
+├── sandbox/                 ← Docker sandbox (Dockerfile + DockerSandbox class)
 ├── dashboard/               ← Vite + React dashboard (see Infra/Dashboard.md)
 ├── scripts/                 ← Run scripts (multi-run, avg-score)
 ├── data/                    ← Benchmark datasets
