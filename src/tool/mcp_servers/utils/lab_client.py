@@ -214,7 +214,7 @@ async def poll_batch_results(
             continue
         last_resp = resp
         status = resp.get("status", "").lower()
-        if status == "completed":
+        if status in ("complete", "completed"):
             return resp
         # Still processing — keep polling
         await asyncio.sleep(interval)

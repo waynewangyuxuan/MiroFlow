@@ -168,8 +168,11 @@ You accomplish a given task iteratively, breaking it down into clear steps and w
                 "Your final response should be a clear, complete, and structured report.\n"
                 "Organize the content into logical sections with appropriate headings.\n"
                 "Do NOT include any tool call instructions, speculative filler, or vague summaries.\n"
-                "Focus on factual, specific, and well-organized information."
-                "Output the final answer in the format: \\boxed{...}. The boxed answer should be a short phrase or a comma-separated list of numbers and/or strings."
+                "Focus on factual, specific, and well-organized information.\n\n"
+                "**CRITICAL FORMAT REQUIREMENT**: You MUST wrap your final answer in \\boxed{...}. "
+                "For example: \\boxed{your answer here}. "
+                "The boxed answer should contain the concise final answer — a short phrase, a number, a comma-separated list, or a JSON structure as appropriate. "
+                "A response WITHOUT \\boxed{} is considered a FAILED response. You MUST include \\boxed{} in your output."
             )
         )
 

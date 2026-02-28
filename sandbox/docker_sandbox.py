@@ -158,12 +158,40 @@ class DockerSandbox:
 
     @classmethod
     def connect(cls, sandbox_id: str) -> DockerSandbox:
-        """Reconnect to an existing sandbox by ID."""
+        """Reconnect to an existing sandbox by ID.
+
+        First checks the in-memory registry, then falls back to looking up
+        the Docker container by name (sandbox_id == container name).  This
+        handles the case where each MCP tool call runs in a fresh process
+        and the in-memory registry is empty.
+        """
         with cls._lock:
             sandbox = cls._registry.get(sandbox_id)
 
         if sandbox is None:
-            raise NotFound(f"Sandbox '{sandbox_id}' not found or already expired.")
+            # Fallback: look up container by name via Docker API
+            import docker
+
+            client = docker.from_env()
+            try:
+                container = client.containers.get(sandbox_id)
+            except docker.errors.NotFound:
+                raise NotFound(
+                    f"Sandbox '{sandbox_id}' not found or already expired."
+                )
+            if container.status != "running":
+                raise NotFound(
+                    f"Sandbox '{sandbox_id}' container is no longer running."
+                )
+            sandbox = cls(
+                container=container,
+                sandbox_id=sandbox_id,
+                timeout=1800,
+                created_at=time.time(),
+            )
+            with cls._lock:
+                cls._registry[sandbox_id] = sandbox
+            return sandbox
 
         # Verify container is still running
         sandbox._container.reload()

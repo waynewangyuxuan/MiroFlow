@@ -1,10 +1,10 @@
-# Agent config: LiveDRBench × Gemini 2.5 Flash (direct Google AI API)
+# Agent config: LiveDRBench × Gemini 2.5 Flash × Lab Services + Docker Sandbox
 #
 # Usage:
-#   uv run main.py common-benchmark --config_file_name=agent_livedrbench_gemini_direct
+#   uv run main.py common-benchmark --config_file_name=agent_livedrbench_gemini_lab
 #
-# LiveDRBench tasks are heavy research tasks requiring many search rounds.
-# Evaluation is done externally via LiveDRBench's evaluate.py.
+# Uses Moonbow Lab Services (serp for search, ulscar for scraping)
+# and local Docker sandbox (no E2B cloud dependency).
 
 defaults:
   - benchmark: livedrbench
@@ -28,9 +28,11 @@ main_agent:
     oai_tool_thinking: false
 
   tool_config:
-    - tool-searching
+    - tool-lab-serp       # DuckDuckGo search (no quota limit)
+    - tool-lab-ulscar     # Resilient web scraping
+    - tool-code           # Code execution (Docker sandbox, SANDBOX_BACKEND=docker)
 
-  max_turns: 50        # deep research tasks need many turns (was 30, too few for complex data collection)
+  max_turns: 50
   max_tool_calls_per_turn: 10
 
   input_process:
@@ -49,5 +51,5 @@ main_agent:
 sub_agents: null
 
 
-output_dir: logs/livedrbench/gemini_direct
+output_dir: logs/livedrbench/gemini_lab
 data_dir: "${oc.env:DATA_DIR,data}"

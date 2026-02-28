@@ -10,7 +10,7 @@
 | Searching (Serper npx) | `tool-searching-serper.yaml` | `serper-search-scrape-mcp-server` (npx) | Serper's official MCP server |
 | Reading | `tool-reading.yaml` | `src.tool.mcp_servers.reading_mcp_server` | Web page reading |
 | Browsing | `tool-browsing.yaml` | `src.tool.mcp_servers.browsing_mcp_server` | AI-powered web browsing (Claude/GPT) |
-| Code Execution | `tool-code.yaml` | `src.tool.mcp_servers.python_server` | Python code execution (Docker local / E2B cloud) |
+| Code Execution | `tool-code.yaml` | `src.tool.mcp_servers.python_server` | Python code execution (Docker local / E2B cloud). Note: MCP stdio transport spawns a fresh process per tool call — sandbox reconnection uses Docker API lookup (not in-memory registry). |
 | Reasoning | `tool-reasoning.yaml` | `src.tool.mcp_servers.reasoning_mcp_server` | Extended thinking (Claude/OpenAI) |
 | Reasoning OS | `tool-reasoning-os.yaml` | — | OS-variant of reasoning |
 | Audio | `tool-audio.yaml` | — | Audio processing |
