@@ -6,8 +6,9 @@
 
 | Layer | Technology | Notes |
 |-------|-----------|-------|
-| Framework | React 18 | SPA with react-router-dom |
-| Build | Vite | Fast dev server, instant HMR |
+| Framework | React 19 | SPA with react-router-dom |
+| Build | Vite 7 | Fast dev server, instant HMR |
+| Charts | recharts | Trace analytics (area, bar, pie) |
 | Icons | lucide-react | Consistent, minimal iconography |
 | Styling | Inline JS objects | Token-based, no CSS framework |
 | Design | Nordic minimalist | Inter + JetBrains Mono, muted earth tones, high whitespace |
@@ -39,13 +40,16 @@ dashboard/
 │   │   ├── Layout.jsx        ← Shell: nav bar + content outlet
 │   │   ├── FileDropZone.jsx  ← Drag-and-drop JSON loader
 │   │   ├── StatBar.jsx       ← Overview stats strip
-│   │   └── TaskExplorer.jsx  ← Two-panel task list + detail
+│   │   ├── TaskExplorer.jsx  ← Two-panel task list + detail
+│   │   ├── TraceOverview.jsx ← Stats cards + recharts analytics
+│   │   └── MessageTimeline.jsx ← Conversation timeline with tool calls
 │   ├── views/
 │   │   ├── BenchmarkData.jsx ← LiveDRBench data explorer
-│   │   ├── TraceLogs.jsx     ← Agent trace viewer (placeholder)
+│   │   ├── TraceLogs.jsx     ← Agent trace viewer (fully implemented)
 │   │   └── Experiments.jsx   ← Experiment comparison (placeholder)
 │   ├── hooks/
-│   │   └── useDataLoader.js  ← File loading + parsing hook
+│   │   ├── useDataLoader.js  ← File loading + parsing hook
+│   │   └── useTraceLoader.js ← Trace log discovery + loading hook
 │   └── utils/
 │       └── data.js           ← Data extraction helpers
 └── package.json
@@ -70,10 +74,13 @@ Category colors map to `categoryColor` in tokens.js and are consistent across al
 - Stats overview: task count, category distribution, field count
 - Two-panel explorer: searchable/filterable task list + full detail view
 
-### Trace Logs (planned)
-- Load agent conversation traces from `logs/` directory
-- Visualize: system prompt → LLM response → tool calls → tool results → next turn
-- Show token usage, timing, context window pressure
+### Trace Logs (implemented)
+- Auto-discovers traces from `logs/` directory via Vite middleware (`/api/logs/`)
+- Tree-based index: benchmark → config → task files, with upload fallback
+- **TraceOverview**: stat cards (duration, turns, tool calls, sub-agents, judge result) + recharts analytics (execution timeline area chart, tool usage bar chart, step status pie chart)
+- **MessageTimeline**: vertical timeline with role-colored bubbles (SYS/AI/USR), collapsible content, XML tool-call parsing (`<use_mcp_tool>` → server/tool/args display), tool result blocks, sub-agent session expansion
+- Step log table with status-colored dots and timestamps
+- Task metadata pills (status, judge result, category, duration)
 
 ### Experiments (planned)
 - Compare benchmark scores across models and configs
