@@ -1,0 +1,58 @@
+# Agent config: LiveDRBench × Qwen3-32B × Jina Reader (proxy pool) + Docker Sandbox
+#
+# Usage:
+#   uv run main.py common-benchmark --config_file_name=agent_livedrbench_qwen3_reader
+#
+# Uses Jina Reader via proxy.frederickpi.com for high-quality web scraping
+# (handles JS-rendered pages). Replaces ulscar with lab-reader.
+
+defaults:
+  - benchmark: livedrbench
+  - override hydra/job_logging: none
+  - _self_
+
+main_agent:
+  prompt_class: MainAgentPromptBoxedAnswer
+  llm:
+    provider_class: "Qwen3LocalClient"
+    model_name: "openai/gpt-oss-120b"
+    async_client: true
+    temperature: 0.6
+    top_p: 0.95
+    min_p: 0.0
+    top_k: -1
+    max_tokens: 8000
+    max_context_length: 32768
+    local_api_key: "${oc.env:LOCAL_LLM_API_KEY,not-needed}"
+    local_base_url: "${oc.env:LOCAL_LLM_BASE_URL,https://localllm.frederickpi.com/v1}"
+    keep_tool_result: 3
+    oai_tool_thinking: false
+    repetition_penalty: 1.0
+    disable_cache_control: true
+
+  tool_config:
+    - tool-lab-serp       # DuckDuckGo search (no quota limit)
+    - tool-lab-reader     # Jina Reader + proxy pool (JS-capable scraping)
+    - tool-code           # Code execution (Docker sandbox)
+
+  max_turns: 20           # conservative for smaller model context
+  max_tool_calls_per_turn: 5
+
+  input_process:
+    hint_generation: false
+    hint_llm_base_url: "${oc.env:HINT_LLM_BASE_URL,https://api.openai.com/v1}"
+  output_process:
+    final_answer_extraction: false
+    final_answer_llm_base_url: "${oc.env:FINAL_ANSWER_LLM_BASE_URL,https://api.openai.com/v1}"
+
+  openai_api_key: "${oc.env:OPENAI_API_KEY,???}"
+  add_message_id: true
+  keep_tool_result: 3
+  chinese_context: "${oc.env:CHINESE_CONTEXT,false}"
+
+
+sub_agents: null
+
+
+output_dir: logs/livedrbench/qwen3_reader
+data_dir: "${oc.env:DATA_DIR,data}"

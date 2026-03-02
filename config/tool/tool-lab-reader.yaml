@@ -1,0 +1,9 @@
+name: "tool-lab-reader"
+tool_command: "python"
+args:
+  - "-m"
+  - "src.tool.mcp_servers.lab_reader_mcp_server"
+env:
+  LAB_PROXY_BASE_URL: "${oc.env:LAB_PROXY_BASE_URL,https://proxy.frederickpi.com}"
+  JINA_READER_BASE_URL: "${oc.env:JINA_READER_BASE_URL,https://r.jina.ai}"
+  LAB_READER_MAX_CONTENT: "${oc.env:LAB_READER_MAX_CONTENT,50000}"

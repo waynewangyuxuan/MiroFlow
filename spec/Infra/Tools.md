@@ -23,6 +23,7 @@
 | Lab Audio | `tool-lab-audio.yaml` | `src.tool.mcp_servers.lab_audio_mcp_server` | Speech-to-text via Moonbow Speaches (Whisper) |
 | Lab Video | `tool-lab-video.yaml` | `src.tool.mcp_servers.lab_video_mcp_server` | Video download & transcripts via Moonbow yt-dlp |
 | Lab Psycholing | `tool-lab-psycholing.yaml` | `src.tool.mcp_servers.lab_psycholing_mcp_server` | Psycholinguistic text analysis |
+| Lab Reader | `tool-lab-reader.yaml` | `src.tool.mcp_servers.lab_reader_mcp_server` | Jina Reader + proxy pool — JS-capable web scraping (~1620 RPM) |
 
 ## How Tools Are Used
 
@@ -67,3 +68,6 @@ main_agent:
 | `LAB_AUDIO_MODEL` | tool-lab-audio (default: `Systran/faster-whisper-base`) |
 | `LAB_VIDEO_BASE_URL` | tool-lab-video (default: `https://video.frederickpi.com`) |
 | `LAB_PSYCHOLING_BASE_URL` | tool-lab-psycholing (default: `https://psycholing.frederickpi.com`) |
+| `LAB_PROXY_BASE_URL` | tool-lab-reader (default: `https://proxy.frederickpi.com`) |
+| `JINA_READER_BASE_URL` | tool-lab-reader (default: `https://r.jina.ai`) |
+| `LAB_READER_MAX_CONTENT` | tool-lab-reader (default: `50000`) |
